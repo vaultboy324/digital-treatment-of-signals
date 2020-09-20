@@ -57,4 +57,4 @@ class Negative:
         return self.__image
 
     def get_negative_image(self):
-        return self.__negative_image
+        return self.__negative_image.convert('RGB')
