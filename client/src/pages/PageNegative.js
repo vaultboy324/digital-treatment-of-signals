@@ -27,15 +27,30 @@ class PageNegative extends Component{
       showLoader: true,
     });
 
-    const response = await fetch('http://localhost:5000/negative',{
+    const saveImageResponse = await fetch('http://localhost:5000/save_image',{
       method: 'POST',
       body: formData,
     });
 
-    const negativeImage = await response.blob();
+    let imageData = await saveImageResponse.json();
+    const jsonString = JSON.stringify(imageData)
+
+    const makeNegativeImageResponse = await fetch('http://localhost:5000/negative', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: jsonString
+    });
+
+    const negativeImage = await makeNegativeImageResponse.blob();
     this.setState({
       picture: negativeImage,
       showLoader: false,
+    });
+
+    await fetch(`http://localhost:5000/remove_image/${imageData.filename}`, {
+      method: 'DELETE'
     });
 
   }
@@ -49,7 +64,7 @@ class PageNegative extends Component{
     let imageWrapper = null;
     if(this.state.picture && !loader) {
       let imageForDisplay = URL.createObjectURL(this.state.picture)
-      imageWrapper = <ImageWrapper imageForDisplay={imageForDisplay} action={this.onNegative}/>
+      imageWrapper = <ImageWrapper imageForDisplay={imageForDisplay} action={this.onNegative} buttonText={'Сделать негатив'}/>
     }
 
     return (

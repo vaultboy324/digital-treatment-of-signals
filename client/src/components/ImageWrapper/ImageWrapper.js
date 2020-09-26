@@ -10,7 +10,7 @@ function ImageWrapper (params){
       <img src={params.imageForDisplay}/>
       <br/>
       <Button onClick={params.action} className="btn-light rounded-button">
-        Сделать негатив
+        {params.buttonText}
       </Button>
     </Container>
   )

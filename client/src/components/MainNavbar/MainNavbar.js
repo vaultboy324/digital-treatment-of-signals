@@ -10,6 +10,7 @@ function MainNavbar (params){
         <Navbar.Collapse id="collapse-button">
           <Nav className="mr-auto">
             <Nav.Link href="/negative">Негатив</Nav.Link>
+            <Nav.Link href='/gamma_correction'>Гамма-Коррекция</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
