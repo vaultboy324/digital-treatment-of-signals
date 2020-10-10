@@ -1,0 +1,20 @@
+{
+  "operators": [
+    {
+      "key": "ROBERTS_OPERATOR",
+      "text": "Оператор Робертса"
+    },
+    {
+      "key": "SOBELL_OPERATOR",
+      "text": "Оператор Собела"
+    },
+    {
+      "key": "LAPLACIAN",
+      "text": "Лапласиан"
+    },
+    {
+      "key": "LAPLACIAN_WITH_BASE",
+      "text": "Лапласиан + исходное"
+    }
+  ]
+}
