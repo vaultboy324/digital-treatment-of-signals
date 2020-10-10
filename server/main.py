@@ -4,9 +4,13 @@ import os
 
 from flask import Flask, request, send_file
 from flask_cors import CORS
+import matplotlib.image as img
 
 from modules.negative import Negative
 from modules.gamma_correction import GammaCorrection
+from modules.sharpness_upper import SharpnessUpper
+
+from constants import sharpness_upper_operators
 
 app = Flask(__name__)
 CORS(app)
@@ -40,8 +44,8 @@ def negative():
     data = request.get_json()
     path = data['filename']
     negative_module = Negative(path)
-    result = negative_module.get_negative_image()
-    result.save(path)
+    result = negative_module.get_negative_pixel_matrix()
+    img.imsave(path, result, cmap='gray')
     return send_file(path, 'image/png')
 
 
@@ -52,8 +56,8 @@ def gamma_correction():
     gamma = float(data['gamma'])
     c = float(data['c'])
     gamma_correction_module = GammaCorrection(path, gamma, c)
-    result = gamma_correction_module.get_corrected_image()
-    result.save(path)
+    result = gamma_correction_module.get_corrected_pixel_matrix()
+    img.imsave(path, result, cmap='gray')
     return send_file(path, 'image/png')
 
 
@@ -66,5 +70,20 @@ def remove_image(path):
     return response
 
 
+@app.route('/sharpness_upper', methods=['GET', 'POST'])
+def sharpness_upper():
+    data = request.get_json()
+    path = data['filename']
+    operator_type = data['operator_type']
+    sharpness_upper_module = SharpnessUpper(path, operator_type)
+    result = sharpness_upper_module.get_processed_image_pixel_matrix()
+    img.imsave(path, result, cmap='gray')
+    return send_file(path, 'image/png')
+
+
 if __name__ == '__main__':
+    # laplas_operator = SharpnessUpper('test/lanoire.jpeg', sharpness_upper_operators.LAPLACIAN)
+    # processed_image = laplas_operator.get_processed_image()
+    # processed_image.save('temp.png')
+    #
     app.run()

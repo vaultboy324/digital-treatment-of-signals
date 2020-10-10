@@ -23,13 +23,13 @@ class ImageParser:
                 hsv_pixel = self.__image.getpixel((i, j))
                 brightness = hsv_pixel[len(hsv_pixel) - 1]
                 pixel_matrix[i][j] = brightness
-        self.__pixel_matrix = pixel_matrix
+        self.__pixel_matrix = np.transpose(pixel_matrix)
 
     def _pixel_matrix_to_hsv_format(self, pixel_matrix):
         result = np.zeros((self.__height, self.__width, 3), dtype=np.uint8)
-        for i in range(0, self.__width):
-            for j in range(0, self.__height):
-                result[j][i][2] = pixel_matrix[i][j]
+        for i in range(0, self.__height):
+            for j in range(0, self.__width):
+                result[i][j][2] = pixel_matrix[i][j]
         return result
 
     def get_pixel_matrix(self):
